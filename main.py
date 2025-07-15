@@ -43,6 +43,7 @@ def verify_identity():
         except api_client.ApiClientError as e:
             logger.error(f'An API error occurred during verification: {e}')        
         logger.info('Retrying facial verification\n')
+        time.sleep(1)
 
 
 def main():
