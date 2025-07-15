@@ -15,7 +15,7 @@ def setup_logging():
     """Configures logging for console and a dedicated transcript file."""
     TRANSCRIPT_LOG_FILE = 'transcript.log'
     verbose_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    transcript_formatter = logging.Formatter('%(message)s')
+    transcript_formatter = logging.Formatter('%(asctime)s - %(message)s')
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)    
     console_handler = logging.StreamHandler()
