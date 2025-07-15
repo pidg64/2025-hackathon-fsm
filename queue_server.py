@@ -9,7 +9,7 @@ name_queue = Queue()
 
 @app.post('/enqueue/{name}')
 def enqueue_name(name: str):
-    print(f'Encolando nombre: {name} en la cola {name_queue}')
+    print(f'Enqueuing name: {name} in queue {name_queue}')
     name_queue.put(name)
     return {'status': 'enqueued', 'name': name}
 
@@ -19,7 +19,7 @@ def dequeue_name():
         return JSONResponse(content={}, status_code=200)
     
     name = name_queue.get()
-    print(f'Nombre retirado de la cola: {name}')
+    print(f'Name removed from queue: {name}')
     return {'name': name}
 
 def get_queue():
