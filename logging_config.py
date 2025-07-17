@@ -1,4 +1,5 @@
 # Configure logging
+import os
 import logging
 
 
@@ -14,6 +15,11 @@ logging.Logger.conversation = conversation
 def setup_logging():
     """Configures logging for console and a dedicated transcript file."""
     TRANSCRIPT_LOG_FILE = 'transcript.log'
+    try:
+        if os.path.exists(TRANSCRIPT_LOG_FILE):
+            os.remove('transcript.log')
+    except OSError as e:
+        print(f'Error removing existing transcript log file: {e}')
     verbose_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     transcript_formatter = logging.Formatter('%(asctime)s - %(message)s')
     root_logger = logging.getLogger()
