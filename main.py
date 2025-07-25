@@ -49,7 +49,12 @@ def verify_identity():
 def main():
     """Main application entry point."""
     try:
-        person = verify_identity()
+        skip_verification = '-s' in sys.argv or '--skip-verification' in sys.argv
+        if skip_verification:
+            logger.info('Skipping identity verification due to command-line argument.')
+            person = os.getenv('USER', 'Luz')
+        else:
+            person = verify_identity()
         fsm = VoiceChatFSM(
             person,
             WHISPER_API_URL,
