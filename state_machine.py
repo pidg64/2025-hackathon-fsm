@@ -68,7 +68,6 @@ class VoiceChatFSM:
         try:
             answer = api_client.query_llm(self.llm_api_url, question)
             if answer:
-                logger.info(f'LLM Answer: {answer}')
                 logger.info(f'Assistant: {answer}')
                 transcript_logger.conversation(f'Assistant: {answer}')  
                 self._speak_answer(answer)

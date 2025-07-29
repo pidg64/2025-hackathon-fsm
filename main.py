@@ -17,6 +17,7 @@ LLM_API_URL = os.getenv('LLM_API_URL', '')
 TTS_API_URL = os.getenv('TTS_API_URL', '')
 WHISPER_API_URL = os.getenv('WHISPER_API_URL', '')
 FACE_VERIFICATION_URL = os.getenv('FACE_VERIFICATION_URL', '')
+VLM_URL = os.getenv('VLM_URL', '')
 
 logger = logging.getLogger(__name__)
 transcript_logger = logging.getLogger('transcript')
@@ -52,7 +53,7 @@ def main():
         skip_verification = '-s' in sys.argv or '--skip-verification' in sys.argv
         if skip_verification:
             logger.info('Skipping identity verification due to command-line argument.')
-            person = os.getenv('USER', 'Luz')
+            person = os.getenv('BANK_USER', 'Luz')
         else:
             person = verify_identity()
         fsm = VoiceChatFSM(
@@ -65,7 +66,12 @@ def main():
             if key == keyboard.Key.space:
                 fsm.toggle()
             elif hasattr(key, 'char') and key.char.lower() == 'q':
-                logger.info('Session ended by user.')
+                logger.info('Session ended by user. Sending transcript to VLM.')
+                try:
+                    api_client.send_transcript(VLM_URL, 'transcript.log')
+                    logger.info('Transcript sent successfully.')
+                except Exception as e:
+                    logger.error(f'Failed to send transcript: {e}')
                 return False
         with keyboard.Listener(on_press=on_press) as listener:
             listener.join()
