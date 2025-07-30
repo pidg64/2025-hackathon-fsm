@@ -4,7 +4,7 @@ from queue import Queue
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-app = FastAPI()
+app = FastAPI(title='RFID API')
 name_queue = Queue()
 
 @app.post('/enqueue/{name}')
